@@ -1,0 +1,48 @@
+@import "partials/header";
+@import "partials/footer";
+
+body {
+	margin: 0;
+	height: 100vh;
+
+	background-color: #4d4d4d;
+	//overflow: hidden;
+}
+
+div.page_body {
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+
+	justify-content: center;
+	align-items: center;
+
+	//background-color: #4d4d4d;
+
+	div.bones_result {
+		text-align: center;
+		font-family: "Bebas Neue", sans-serif;
+		font-weight: bold;
+		color: white;
+
+		margin-top: auto;
+		margin-bottom: auto;
+
+		h1 {
+			font-size: 7em;
+
+			span.bones_day {
+				color: #D26DAE !important;
+				//color: #35b0b3 !important;
+			}
+			span.no_bones_day {
+				color: #35b0b3 !important;
+			}
+		}
+
+		h2 {
+			font-size: 3em;
+		}
+	}
+}
+
