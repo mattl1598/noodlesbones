@@ -1,0 +1,40 @@
+@media only screen and (orientation: landscape) {
+	div.footer {
+		background-color: #333333;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-evenly;
+
+		font-family: Roboto, sans-serif;
+
+		padding-top: 1ch;
+		//padding-bottom: 0ch;
+		//position: sticky;
+		//bottom: 0;
+		width: 100vw;
+		//max-height: 15vh;
+		//justify-self: flex-end;
+
+		.column {
+			color: white;
+
+			ul {
+				list-style-type: none;
+			}
+
+			li {
+				//text-align: center;
+				a {
+					color: white;
+					text-decoration: none;
+				}
+			}
+		}
+	}
+}
+
+@media only screen and (orientation: portrait) {
+	div.footer {
+		display: none;
+	}
+}
