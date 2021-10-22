@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 {#		<meta charset="UTF-8" http-equiv="refresh" content="2">#}
-		<title>Title</title>
+		<title>Home | Noodles Bones</title>
 		<link type="text/css" rel="stylesheet" href="/css/frontpage.css"/>
 	</head>
 	<body>
@@ -25,6 +25,15 @@
 					<h1>It's a <span class="no_bones_day">No Bones Day</span></h1>
 					<h2>Relax, everything will be just fine</h2>
 				{% endif %}
+				<div class="forecast {{ forecast["forecastResult"] }}">
+					{% if forecast["forecastResult"] == "bones" %}
+						Forecast for tomorrow: Bones Day
+						Confidence: {{ forecast["confidence"] }}
+					{% else %}
+						Forecast for tomorrow: No Bones Day
+						Confidence: {{ str(forecast["confidence"]*100)[:5] }}%
+					{% endif %}
+				</div>
 			</div>
 
 			<div class="footer">

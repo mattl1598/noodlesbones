@@ -1,10 +1,16 @@
 from datetime import datetime, timedelta
-from flask import abort, make_response, render_template
+from flask import abort, make_response, redirect, render_template, url_for
 from webapp import app
+from pandas import DataFrame, read_csv
+from statsmodels.tsa.arima.model import ARIMA
+import numpy
 
 
 @app.route('/')
 def frontpage():
+	if app.forecast is None:
+		return redirect("/update")
+
 	result = app.firebase.get('/history', None)
 	try:
 		now = str(datetime.now())[:10]
@@ -12,7 +18,7 @@ def frontpage():
 	except KeyError:
 		yesterday = str(datetime.now()-timedelta(days=1))[:10]
 		bones = result[yesterday]
-	return render_template("frontpage.html", result=bones)
+	return render_template("frontpage.html", result=bones, forecast=app.forecast)
 
 
 @app.get("/history")
@@ -34,6 +40,33 @@ def getnotified():
 @app.route('/about')
 def about():
 	return render_template('about.html')
+
+
+@app.route('/update')
+def update():
+	results = app.firebase.get('/history', None)
+	bool_stream = []
+	for date in results.keys():
+		bool_stream.append(int(results[date]["status"] == "bones"))
+
+	series = DataFrame(bool_stream)
+
+	X = series.values
+	# fit model
+	model = ARIMA(X)
+	model_fit = model.fit()
+	# print summary of fit model
+
+	forecast = model_fit.forecast()[0]
+	key = {0: "nobones", 1: "bones"}
+	if round(forecast) == 0:
+		confidence = 1-forecast
+	else:
+		confidence = forecast
+
+	app.forecast = {"forecastResult": key[round(forecast)], "confidence": confidence}
+	print(app.forecast)
+	return redirect("/")
 
 
 @app.get("/css/<filename>")

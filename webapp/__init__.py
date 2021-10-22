@@ -11,6 +11,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{basedir}/dev.db"
 
 app.root = os.getcwd().replace("\\", "/")
+app.forecast = None
 
 lines = open(f"{basedir}/db_url.txt").readlines()
 firebase_url = lines[0]
@@ -24,5 +25,11 @@ scss_paths = [
 ]
 
 app.scss_compiler = Compiler(search_path=scss_paths)
+
+app.jinja_env.globals.update(
+	len=len,
+	range=range,
+	str=str
+)
 
 from webapp import routes
