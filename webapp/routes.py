@@ -59,7 +59,7 @@ def update():
 	sample_len = 3
 
 	for i in range(0, len(y) - sample_len):
-		print(f"{i + 2}/{len(y)}")
+		# print(f"{i + 2}/{len(y)}")
 		try:
 			test = lookup[str(y[i:i + sample_len])]
 			lookup[str(y[i:i + sample_len])] = (test + 2 * y[i + sample_len]) / 3
@@ -99,7 +99,7 @@ def update():
 	# 	confidence = forecast
 	#
 	# app.forecast = {"forecastResult": key[round(forecast)], "confidence": confidence}
-	print(app.forecast)
+	# print(app.forecast)
 	return redirect("/")
 
 
