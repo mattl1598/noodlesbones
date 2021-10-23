@@ -8,8 +8,8 @@ import numpy
 
 @app.route('/')
 def frontpage():
-	if app.forecast is None:
-		return redirect("/update")
+	# if app.forecast is None:
+	# 	return redirect("/update")
 
 	result = app.firebase.get('/history', None)
 	try:
