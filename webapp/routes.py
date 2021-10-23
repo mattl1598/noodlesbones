@@ -45,26 +45,60 @@ def about():
 @app.route('/update')
 def update():
 	results = app.firebase.get('/history', None)
-	bool_stream = []
+
+	y = []
 	for date in results.keys():
-		bool_stream.append(int(results[date]["status"] == "bones"))
+		if results[date]["status"] == "bones":
+			y.append(1)
+		else:
+			y.append(0)
 
-	series = DataFrame(bool_stream)
+	x = list(range(0, len(y)))
 
-	X = series.values
-	# fit model
-	model = ARIMA(X)
-	model_fit = model.fit()
-	# print summary of fit model
+	lookup = {}
+	sample_len = 3
 
-	forecast = model_fit.forecast()[0]
-	key = {0: "nobones", 1: "bones"}
-	if round(forecast) == 0:
-		confidence = 1-forecast
+	for i in range(0, len(y) - sample_len):
+		print(f"{i + 2}/{len(y)}")
+		try:
+			test = lookup[str(y[i:i + sample_len])]
+			lookup[str(y[i:i + sample_len])] = (test + 2 * y[i + sample_len]) / 3
+		except KeyError:
+			lookup[str(y[i:i + sample_len])] = y[i + sample_len]
+
+	forecast = lookup[str(y[-sample_len:])]
+
+	if round(forecast) < 0.5:
+		result = "nobones"
+		confidence = 1 - forecast
 	else:
+		result = "bones"
 		confidence = forecast
 
-	app.forecast = {"forecastResult": key[round(forecast)], "confidence": confidence}
+	app.forecast = {"forecastResult": result, "confidence": confidence*0.95}
+
+	# old algorithm
+	# bool_stream = []
+	# for date in results.keys():
+	# 	bool_stream.append(int(results[date]["status"] == "bones"))
+	#
+	# bool_stream.append(1)
+	# series = DataFrame(bool_stream)
+	#
+	# X = series.values
+	# # fit model
+	# model = ARIMA(X)
+	# model_fit = model.fit()
+	# # print summary of fit model
+	#
+	# forecast = model_fit.forecast()[0]
+	# key = {0: "nobones", 1: "bones"}
+	# if round(forecast) == 0:
+	# 	confidence = 1-forecast
+	# else:
+	# 	confidence = forecast
+	#
+	# app.forecast = {"forecastResult": key[round(forecast)], "confidence": confidence}
 	print(app.forecast)
 	return redirect("/")
 

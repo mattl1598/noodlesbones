@@ -27,10 +27,10 @@
 				{% endif %}
 				<div class="forecast {{ forecast["forecastResult"] }}">
 					{% if forecast["forecastResult"] == "bones" %}
-						Forecast for tomorrow: Bones Day
-						Confidence: {{ forecast["confidence"] }}
+						Forecast for tomorrow: Bones Day <br>
+						Confidence: {{ str(forecast["confidence"]*100)[:5] }}%
 					{% else %}
-						Forecast for tomorrow: No Bones Day
+						Forecast for tomorrow: No Bones Day <br>
 						Confidence: {{ str(forecast["confidence"]*100)[:5] }}%
 					{% endif %}
 				</div>
