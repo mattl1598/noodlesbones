@@ -25,7 +25,7 @@
 					<h1>It's a <span class="no_bones_day">No Bones Day</span></h1>
 					<h2>Relax, everything will be just fine</h2>
 				{% endif %}
-				{% if forecast is not None %}
+				{% if forecast != None %}
 					<div class="forecast {{ forecast["forecastResult"] }}">
 						{% if forecast["forecastResult"] == "bones" %}
 							Forecast for tomorrow: Bones Day <br>
