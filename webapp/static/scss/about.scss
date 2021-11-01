@@ -31,6 +31,22 @@ div.page_body {
 		color: white;
 		text-align: center;
 
+		@media only screen and (orientation: landscape) {
+			div.links {
+				flex-direction: row;
+
+				div.box {
+					font-size: 70%;
+				}
+			}
+		}
+
+		@media only screen and (orientation: portrait) {
+			div.links {
+				flex-direction: column;
+			}
+		}
+
 		div.links {
 			display: flex;
 			flex-direction: row;
@@ -42,6 +58,7 @@ div.page_body {
 				border-radius: 7px;
 				padding: 1ch;
 				background-color: #595959;
+				margin: 1ch;
 
 				ul {
 					text-align: left;

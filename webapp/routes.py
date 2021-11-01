@@ -66,7 +66,10 @@ def update():
 		except KeyError:
 			lookup[str(y[i:i + sample_len])] = y[i + sample_len]
 
-	forecast = lookup[str(y[-sample_len:])]
+	try:
+		forecast = lookup[str(y[-sample_len:])]
+	except KeyError:
+		forecast = 0.3
 
 	if round(forecast) < 0.5:
 		result = "nobones"
